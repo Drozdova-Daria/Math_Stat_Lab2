@@ -1,0 +1,90 @@
+Normal,10
+Sample average,0.00888,0.91114
+Sample median,0.02098,0.39059
+Half-sum extreme sample elements,-0.01354,1.68398
+Half-sum guartiles,0.17857,0.98861
+Truncated average,-0.09577,0.32491
+Normal,100
+Sample average,0.00012,0.9938
+Sample median,0.00101,0.45183
+Half-sum extreme sample elements,0.01275,3.8062
+Half-sum guartiles,-0.01625,0.69208
+Truncated average,-0.01136,0.50983
+Normal,1000
+Sample average,1e-05,1.00024
+Sample median,-0.00144,0.45391
+Half-sum extreme sample elements,-0.00959,5.84812
+Half-sum guartiles,-0.00289,0.71279
+Truncated average,-0.00122,0.53352
+Cauchy,10
+Sample average,5.86457,327267.41079
+Sample median,0.00561,1.31684
+Half-sum extreme sample elements,-1.99297,7900.31915
+Half-sum guartiles,0.89762,46.82835
+Truncated average,-0.20252,1.19974
+Cauchy,100
+Sample average,-12.28087,35674588.30608
+Sample median,-0.01189,1.0064
+Half-sum extreme sample elements,24.35076,3097716.95038
+Half-sum guartiles,-0.03192,3.11332
+Truncated average,-0.01766,1.49921
+Cauchy,1000
+Sample average,0.17576,204355.26385
+Sample median,0.00069,0.99596
+Half-sum extreme sample elements,-7076.33535,46106340842.08319
+Half-sum guartiles,-0.00399,2.99291
+Truncated average,-0.0026,1.53586
+Laplace,10
+Sample average,-0.01097,3.59459
+Sample median,-0.01657,1.08178
+Half-sum extreme sample elements,0.04151,8.35587
+Half-sum guartiles,0.35696,3.78841
+Truncated average,-0.16455,0.8429
+Laplace,100
+Sample average,0.00361,3.9394
+Sample median,-0.00163,0.96267
+Half-sum extreme sample elements,0.03239,27.83186
+Half-sum guartiles,-0.02474,1.97992
+Truncated average,-0.01955,1.2174
+Laplace,1000
+Sample average,-0.00148,3.99896
+Sample median,0.00102,0.96443
+Half-sum extreme sample elements,-0.02418,55.70639
+Half-sum guartiles,-0.00177,1.99204
+Truncated average,-0.00626,1.26703
+Poisson,10
+Sample average,10.0348,9.15212
+Sample median,9.8525,0.31525
+Half-sum extreme sample elements,10.317,24.765
+Half-sum guartiles,10.5865,8.02575
+Truncated average,7.893,14.06156
+Poisson,100
+Sample average,10.00325,9.82028
+Sample median,9.842,0.0205
+Half-sum extreme sample elements,10.9565,62.86775
+Half-sum guartiles,9.872,4.5775
+Truncated average,9.61992,3.33891
+Poisson,1000
+Sample average,9.99753,9.96502
+Sample median,9.997,0.0
+Half-sum extreme sample elements,11.6845,101.42525
+Half-sum guartiles,9.9915,4.03825
+Truncated average,9.83455,1.72273
+Uniform,10
+Sample average,-0.87037,0.22547
+Sample median,-0.87526,0.01145
+Half-sum extreme sample elements,-0.86197,0.51672
+Half-sum guartiles,-0.79154,0.51312
+Truncated average,-0.79292,-0.04386
+Uniform,100
+Sample average,-0.86441,0.24666
+Sample median,-0.86835,0.00013
+Half-sum extreme sample elements,-0.86529,0.72009
+Half-sum guartiles,-0.8733,0.15675
+Truncated average,-0.85767,0.04533
+Uniform,1000
+Sample average,-0.86591,0.24977
+Sample median,-0.86621,0.0
+Half-sum extreme sample elements,-0.866,0.74696
+Half-sum guartiles,-0.86745,0.1835
+Truncated average,-0.86449,0.06075
