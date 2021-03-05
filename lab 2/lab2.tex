@@ -1,0 +1,425 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\usepackage[unicode, pdftex]{hyperref}
+\usepackage{csvsimple}
+
+\begin{document}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \centerline {Санкт-Петербургский политехнический университет}
+  \centerline { им. Петра Великого}
+  \centerline { }
+  \centerline {Институт прикладной математики и механики} 
+  \centerline {Кафедра "Прикладная математика"}
+  \vfill
+  \centerline{\textbf{Отчёт}}
+  \centerline{\textbf{по лабораторной работе №2}}
+  \centerline{\textbf{по дисциплине}}
+  \centerline{\textbf{"Математическая статистика"}}
+  \vfill
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+  Выполнил студент:\\
+  Дроздова Дарья Александровна\\
+  группа: 3630102/80401 \\
+  \\
+  Проверил:\\
+  к.ф.-м.н., доцент \\
+  Баженов Александр Николаевич
+  \end{minipage}
+  \vfill
+  \centerline {Санкт-Петербург}   
+  \centerline {2020 г.}  
+\end{titlepage}
+
+\newpage
+\setcounter{page}{2}
+\tableofcontents
+
+\newpage
+\listoftables
+
+\newpage
+\section{Постановка задачи}
+  Для 5 распределений:
+  \begin{itemize}
+    \item Нормальное распределение: $N(x,0,1)$
+    \item Распределение Коши: $C(x,0,1)$
+    \item Распределенеие Лапласа: $L(x,0,\sqrt{2})$
+    \item Распределение Пуассона: $P(k,10)$
+    \item Равномерное распределение: $U(x,-\sqrt{3}, \sqrt{3})$
+  \end{itemize}
+  Сгенерировать выборки мощностью 10, 100 и 1000 элементов. Для каждой выборки вычислить статистические положения данных: 
+  \begin{itemize}
+    \item Выборочное среднее - $\overline{x}$
+    \item Выборочная медиана - $med$ $x$
+    \item Полусумма экстремальных выборочных элементов - $z_R$
+    \item Полусумма квартилей - $z_Q$
+    \item Усеченое среднее - $z_{tr}$
+  \end{itemize}
+  Повторить вычисления 1000 раз для каждой выборки и найти среднее характеристик положения и их квадратов:
+  \begin{equation}
+    E(z)=\overline{z}
+    \label{eq: 1}
+  \end{equation}
+  Вычислить оценку дисперсии по формуле:
+  \begin{equation}
+    D(z)=\overline{z^2} - \overline{z}^2
+    \label{eq: 2}
+  \end{equation}
+  Полученные данные представить в виде таблиц
+  
+\newpage
+\section{Теория}
+\subsection{Выриационный ряд}
+  Вариационный ряд - последовательность элементов выборки, расположенных в неубывающем порядке. Одинаковые элементы повторяются. Запись вариационного ряда: $x_{(1)}, x_{(2)}, ...,x_{(n)}$
+\subsection{Выборочное среднее}
+ Выборочным средним называется среднее арифметическое значений вариант в выборке, определяется по формуле:
+ \begin{equation}
+ \overline{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+ \label{eq: 3}
+ \end{equation}
+ Выборочное среднее используется для статистической оценки математического ожидания исследуемой случайной величины.
+\subsection{Выборочная медиана}
+  Выборочная медиана определяется по формуле:
+  \begin{equation}
+  med \; x=\left \{\ 
+  \begin{array}{rcl}
+  x_{(l+1)}& \qquad \mbox{при} \; n=2l+1 \\
+  \frac{x_{(l)}+x_{(l+1)}}{2}& \qquad \mbox{при} \; n=2l
+  \end{array}\right.
+  \label{eq: 4}
+  \end{equation}
+\subsection{Полусумма экстремальных выборочных элементов}
+  Полусумма экстремальных выборочных элементов определяется по формуле:
+  \begin{equation}
+  z_R=\frac{x_{(1)}-x_{(n)}}{2}
+  \label{eq: 5}
+  \end{equation}
+\subsection{Полусумма квартилей}
+  Для вычисления полусуммы квартилей необходимо для начала вычислить выборочную квартиль $z_p$ порядка $p$, которая определяется по формуле
+  \begin{equation}
+   z_p=\left \{\ 
+  \begin{array}{rcl}
+  x_{([np]+1)}& \qquad \mbox{при} \; np \; \mbox{дробном} \\
+  x_{(np)}& \qquad \mbox{при} \; np \; \mbox{целом}
+  \end{array}\right.
+  \label{eq: 6}
+  \end{equation}
+  Полусумма квартилей определяется по формуле
+  \begin{equation}
+  z_Q=\frac{z_{\frac{1}{4}} + z_{\frac{3}{4}}}{2}
+  \label{eq: 7}
+  \end{equation}
+\subsection{Усечённое среднее}
+  Формула усечённого среднего:
+  \begin{equation}
+  z_{tr} = \frac{1}{n-2r}\sum_{t=r+1}^{n-r}x_{(i)}, \; r\approx\frac{n}{4}
+  \label{eq: 8}
+  \end{equation}
+
+\newpage
+\section{Реализация}
+Лабораторная работа выполнена на языке программирования Python в среде разработки PyCharm с использованием библиотек: numpy, skipy для построения выборок.
+\\
+\\
+Код программы расположен в репозитории GitHub по ссылке: \url{https://github.com/Drozdova-Daria/Math_Stat_Lab2}
+
+\newpage
+\section{Результаты}
+\subsection{Нормальное распределение}
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Нормальное распределение $n=10$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 0.00888 & 0.02098 & -0.01354 & 0.17857 & -0.09577 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 0.91114 & 0.39059 & 1.68398 & 0.98861 & 0.32491 \\ 
+\hline 
+\end{tabular} 
+\caption{Нормальное распределение для $n=10$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Нормальное распределение $n=100$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 0.00012 & 0.00101 & 0.01275 & -0.01625 & -0.01136 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 0.9938 & 0.45183 & 3.8062 & 0.61208 & 0.50983 \\ 
+\hline 
+\end{tabular} 
+\caption{Нормальное распределение для $n=100$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Нормальное распределение $n=1000$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 0.00001 & -0.00144 & -0.00959 & -0.00289 & -0.00122 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 1.00024 & 0.45391 & 5.84812 & 0.71279 & 0.53352 \\ 
+\hline 
+\end{tabular} 
+\caption{Нормальное распределение для $n=1000$}
+\end{center}
+\end{table}
+
+\newpage
+\subsection{Распределение Коши}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Коши $n=10$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 5.86457 & 0.00561 & -1.99297 & 0.89762 & -0.20252 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 327267.41 & 1.31684 & 7900.32 & 42.82835 & 1.19974 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Коши для $n=10$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Коши $n=100$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & -12.28087 & -0.01189 & 24.35076 & -0.03192 & -0.01766 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 35674588.31 & 1.0064 & 3097716.95 & 3.11332 & 1.49921 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Коши для $n=100$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Коши $n=100$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 0.17576 & 0.00069 & -7076.34 & -0.00399 & -0.0026 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 204355.26 & 0.99596 & 46106340842.08 & 2.99291 & 1.53586 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Коши для $n=1000$}
+\end{center}
+\end{table}
+
+\newpage
+\subsection{Распределение Лапласа}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Лапласа $n=10$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & -0.01097 & -0.01657 & 0.04151 & 0.35696 & -0.16455 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 3.59459 & 1.08178 & 8.35587 & 3.78841 & 0.8429 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Лапласа для $n=10$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Лапласа $n=100$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 0.00361 & -0.00163 & 0.03239 & -0.02474 & -0.01955 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 3.9394 & 0.96267 & 27.83186 & 1.97992 & 1.2174 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Лапласа для $n=100$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Лапласа $n=1000$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & -0.00148 & 0.00102 & -0.02418 & -0.00177 & -0.00626 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 3.99896 & 0.96443 & 55.70639 & 1.99204 & 1.26703 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Лапласа для $n=1000$}
+\end{center}
+\end{table}
+
+\newpage
+\subsection{Распределение Пуассона}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Пуассона $n=10$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 10.0348 & 9.8525 & 10.317 & 10.5865 & 7.893 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 9.15212 & 0.31525 & 24.765 & 8.02575 & 14.06156 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Пуассона для $n=10$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Пуассона $n=100$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 10.00325 & 9.842 & 10.9565 & 9.872 & 9.61992 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 9.82028 & 0.0205 & 62.86775 & 4.5775 & 3.33891 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Пуассона для $n=100$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Распределение Пуассона $n=1000$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & 9.99753 & 9.997 & 11.6845 & 9.9915 & 9.83455 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 9.96502 & 0.0 & 101.42525 & 4.03825 & 1.72273 \\ 
+\hline 
+\end{tabular} 
+\caption{Распределение Пуассона для $n=1000$}
+\end{center}
+\end{table}
+
+\newpage
+\subsection{Равномерное распределение}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Равномерное распределение $n=10$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & -0.87037 & -0.87526 & -0.86197 & -0.79154 & -0.79292 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 0.22547 & 0.01145 & 0.51672 & 0.51312 & -0.04386 \\ 
+\hline 
+\end{tabular} 
+\caption{Равномерное распределение для $n=10$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Равномерное распределение $n=100$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & -0.86441 & -0.86835 & -0.86529 & -0.8733 & -0.85767 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 0.24666 & 0.00013 & 0.72009 & 0.15675 & 0.04533 \\ 
+\hline 
+\end{tabular} 
+\caption{Равномерное распределение для $n=100$}
+\end{center}
+\end{table}
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multicolumn{6}{|c|}{Равномерное распределение $n=1000$} \\ 
+\hline 
+  & $\overline{x}$ (\ref{eq: 3}) & $med \; x$ (\ref{eq: 4}) & $z_R$ (\ref{eq: 5}) & $z_Q$ (\ref{eq: 7}) & $z_{tr}$ (\ref{eq: 8}) \\ 
+\hline 
+$E(z)$ (\ref{eq: 1}) & -0.86591 & -0.86621 & -0.866 & -0.86745 & -0.86449 \\ 
+\hline 
+$D(z)$ (\ref{eq: 2}) & 0.24977 & 0.0 & 0.74696 & 0.1835 & 0.06075 \\ 
+\hline 
+\end{tabular} 
+\caption{Равномерное распределение для $n=1000$}
+\end{center}
+\end{table}
+
+\newpage
+\section{Обсуждение}
+По результатам полученных данных можно заметить, что дисперсия характеристик распределения для распределения Коши дает большие значения даже при увеличении можщности выборки, это может быть связано с выбросами, которые наблюдались на гистограмме для данного распределения при выполнении лабораторной работы № 1.
+
+\newpage
+\begin{thebibliography}{4}
+\addcontentsline{toc}{section}{\bibname}
+\bibitem{cauchy}
+Документация бибилиотеки scipy.stats.cauchy. 
+\\ URL: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.cauchy.html
+\bibitem{laplace}
+Документация бибилиотеки scipy.stats.laplace. 
+\\ URL: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.laplace.html
+\bibitem{poisson}
+Документация бибилиотеки scipy.stats.poisson.
+\\ URL: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html
+\bibitem{uniform}
+Документация бибилиотеки scipy.stats.uniform.
+\\ URL: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.uniform.html
+\end{thebibliography}
+
+\end{document}
