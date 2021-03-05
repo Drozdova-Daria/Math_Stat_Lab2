@@ -15,7 +15,9 @@
 - Усеченое среднее - <a href="https://www.codecogs.com/eqnedit.php?latex=z_{tr}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?z_{tr}" title="z_{tr}" /></a>
 
 Повторить вычисления 1000 раз для каждой выборки и найти среднее характеристик положения и их квадратов: <a href="https://www.codecogs.com/eqnedit.php?latex=E(z)=\overline{z}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?E(z)=\overline{z}" title="E(z)=\overline{z}" /></a>
+
 Вычислить оценку дисперсии по формуле: <a href="https://www.codecogs.com/eqnedit.php?latex=D(z)=\overline{z^2}&space;-&space;\overline{z}^2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?D(z)=\overline{z^2}&space;-&space;\overline{z}^2" title="D(z)=\overline{z^2} - \overline{z}^2" /></a>
+
 Полученные данные представить в виде таблиц
 
 Программа выполнена на языке программирования Python с использованием библиотек ```skipy, nympy ``` для построения выборок и вычисления плотности вероятности. 
