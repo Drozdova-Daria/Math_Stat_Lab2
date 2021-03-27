@@ -3,6 +3,7 @@ from scipy.stats import cauchy, laplace, poisson, uniform
 from distribution import Distribution
 from characteristics import Characteristics
 import csv
+import math
 
 
 def selection(mu, sigma, size, distribution):
@@ -105,5 +106,8 @@ with open('results.csv', mode='w', encoding='utf-8') as file:
             file_writer.writerow((Distribution.in_str(distribution), str(n)))
             for characteristic in characteristics:
                 value_one, value_two = average_of_characteristic(a, b, n, distribution, characteristic, count)
-                file_writer.writerow((Characteristics.in_str(characteristic), str(round(value_one, 5)) , str(round(value_two, 5))))
-file.close()
+                e = str(round(value_one, 5))
+                d = str(round(value_two, 5))
+                e_m_s_d = str(round((value_one - math.sqrt(math.fabs(value_two))), 5))
+                e_p_s_d = str(round((value_one + math.sqrt(math.fabs(value_two))), 5))
+                file_writer.writerow((Characteristics.in_str(characteristic), e, d, e_m_s_d, e_p_s_d))
