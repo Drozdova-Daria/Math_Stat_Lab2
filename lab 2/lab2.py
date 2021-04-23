@@ -22,47 +22,32 @@ def selection(mu, sigma, size, distribution):
 
 
 def sample_average(sel: list, size):
-    return sum(sel) / size
+    return sum(sel) / len(sel)
 
 
-def sample_median(sel: list, size):
-    sel.sort()
-    if size % 2 == 0:
-        return (sel[int(size / 2 - 1)] + sel[int(size / 2)]) / 2
-    else:
-        return sel[int((size - 1) / 2)]
+def sample_median(sel, size):
+    return np.median(sel)
 
 
-def half_sum_extreme_sample_elements(sel: list, size):
-    sel.sort()
-    return (sel[0] + sel[size - 1]) / 2
+def half_sum_extreme_sample_elements(sel, size):
+    return (sorted(sel)[0] + sorted(sel)[size - 1]) / 2
 
 
-def sample_guartile(sel: list, size, order):
+def sample_guartile(sel, size, order):
     if size * order == round(size * order):
         return sel[int(size * order) - 1]
     else:
         return sel[int(round(size * order))]
 
 
-def half_sum_quartiles(sel: list, size):
-    sel.sort()
-    return (sample_guartile(sel, size, 0.25) + sample_guartile(sel, size, 0.75)) / 2
+def half_sum_quartiles(sel, size):
+    return (sample_guartile(sorted(sel), size, 0.25) + sample_guartile(sorted(sel), size, 0.75)) / 2
 
 
 def truncated_average(sel: list, size):
-    sel.sort()
     r = round(size / 4)
-    sel_sum = sum(sel[r: (size - r - 1):])
+    sel_sum = sum(sorted(sel)[r: (size - r - 1):])
     return sel_sum / (size - 2 * r)
-
-
-def sample_variance(sel: list, size):
-    value_of_sample_average = sample_average(sel, size)
-    value_of_sample_variance = 0
-    for i in range(len(sel)):
-        value_of_sample_variance = value_of_sample_variance + (sel[i] - value_of_sample_average) ** 2
-    return value_of_sample_variance / size
 
 
 def average_of_characteristic(a, b, size, distribution, characteristic, count):
@@ -75,12 +60,11 @@ def average_of_characteristic(a, b, size, distribution, characteristic, count):
         Characteristics.HALF_SUM_GUARTILES: half_sum_quartiles,
         Characteristics.TRUNCATED_AVERAGE: truncated_average
     }
+    values_list = []
     for _ in range(count):
-        sel = selection(a, b, size, distribution).tolist()
-        value_of_characteristic = values_of_characteristic[characteristic](sel, size)
-        average_characteristic += value_of_characteristic
-        average_characteristic_in_sqrt = average_characteristic_in_sqrt + values_of_characteristic[characteristic]([s*s for s in sel], size) - value_of_characteristic ** 2
-    return average_characteristic / count, average_characteristic_in_sqrt / count
+        sel = selection(a, b, size, distribution)
+        values_list.append(values_of_characteristic[characteristic](sel, size))
+    return sample_average(values_list, count), abs(sample_average([v*v for v in values_list], count) - sample_average(values_list, count) ** 2)
 
 
 size = [10, 100, 1000]
@@ -111,3 +95,4 @@ with open('results.csv', mode='w', encoding='utf-8') as file:
                 e_m_s_d = str(round((value_one - math.sqrt(math.fabs(value_two))), 5))
                 e_p_s_d = str(round((value_one + math.sqrt(math.fabs(value_two))), 5))
                 file_writer.writerow((Characteristics.in_str(characteristic), e, d, e_m_s_d, e_p_s_d))
+
